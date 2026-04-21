@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,6 @@
 <title>VokLo</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -18,109 +18,74 @@ body { font-family: 'Inter', sans-serif; }
 input { font-size:16px; }
 
 .card {
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
+  background: #ffffff;
+  border-radius: 16px;
 }
 
-.dark body { background:#0f172a; color:white; }
-.dark .card { background:rgba(30,41,59,0.9); }
-
-button { transition:0.2s; }
-button:active { transform:scale(0.96); }
+button {
+  transition: 0.2s;
+}
+button:active {
+  transform: scale(0.96);
+}
 </style>
 </head>
 
-<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+<body class="bg-gray-50">
 
 <!-- HEADER -->
-<header class="flex justify-between items-center px-6 py-4 bg-white border-b shadow-sm">
-  <div class="flex items-center gap-3">
-    <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">V</div>
-    <span class="font-semibold text-lg">VokLo</span>
+<header class="flex justify-between items-center px-5 py-4 bg-white border-b">
+  <div class="flex items-center gap-2">
+    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">V</div>
+    <span class="font-semibold">VokLo</span>
   </div>
 
-  <div class="flex gap-2">
-    <button id="themeBtn" class="px-3 py-2 bg-gray-200 rounded-lg">🌙</button>
-    <button onclick="openPreview()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Preview</button>
-  </div>
+  <button onclick="openPreview()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+    Preview
+  </button>
 </header>
 
 <!-- MAIN -->
-<div class="grid md:grid-cols-[1fr_420px] h-[calc(100vh-72px)] max-w-[1400px] mx-auto">
+<div class="max-w-[900px] mx-auto p-4 space-y-5 pb-24">
 
-<!-- LEFT -->
-<div class="overflow-y-auto px-6 py-6 space-y-6 pb-24">
+<div id="invoice" class="space-y-5">
 
-<div id="invoice" class="space-y-6">
-
-<div class="card p-5 shadow">
-<input id="client" class="w-full text-lg font-semibold outline-none bg-transparent" value="Client Name">
+<div class="card p-4 shadow">
+<input id="client" class="w-full font-semibold outline-none bg-transparent" value="Client Name">
 </div>
 
 <div id="items" class="space-y-3"></div>
 
-<button onclick="addItem()" class="w-full py-4 bg-indigo-100 rounded-xl">+ Add Item</button>
+<button onclick="addItem()" class="w-full py-3 bg-indigo-100 rounded-lg">
++ Add Item
+</button>
 
-<div class="card p-5 shadow md:hidden flex justify-between">
+<div class="card p-4 shadow flex justify-between">
 <span>Total</span>
 <span id="total">$0</span>
 </div>
 
 </div>
-</div>
-
-<!-- RIGHT -->
-<div class="hidden md:flex flex-col bg-white border-l p-5 gap-5">
-
-<button onclick="newInvoice()" class="py-3 bg-indigo-600 text-white rounded-xl">+ New Invoice</button>
-
-<div id="invoiceList"></div>
-
-<div>
-<h2 class="font-semibold mb-2">Analytics</h2>
-
-<div class="grid grid-cols-3 gap-2">
-<div class="p-3 bg-indigo-50 rounded-xl">
-<p>Total</p><p id="stat-total">$0</p>
-</div>
-
-<div class="p-3 bg-gray-100 rounded-xl">
-<p>Items</p><p id="stat-count">0</p>
-</div>
-
-<div class="p-3 bg-gray-100 rounded-xl">
-<p>Avg</p><p id="stat-avg">$0</p>
-</div>
-</div>
-
-<div id="insight" class="text-xs mt-2"></div>
-</div>
-
-<div class="flex-1 flex flex-col gap-4">
-<div class="flex-1 min-h-[240px] card p-4 shadow"><canvas id="barChart"></canvas></div>
-<div class="flex-1 min-h-[240px] card p-4 shadow"><canvas id="pieChart"></canvas></div>
-</div>
 
 </div>
-</div>
 
-<!-- MOBILE BAR -->
-<div class="fixed bottom-0 left-0 right-0 p-3 bg-white flex gap-2 shadow md:hidden z-50">
-<button onclick="exportPNG()" class="flex-1 bg-gray-200 py-3 rounded-xl">PNG</button>
-<button onclick="exportPDF()" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl">PDF</button>
-<button onclick="sendWhatsApp()" class="flex-1 bg-indigo-100 py-3 rounded-xl">WA</button>
+<!-- MOBILE ACTION BAR -->
+<div class="fixed bottom-0 left-0 right-0 p-3 bg-white flex gap-2 shadow z-50">
+<button onclick="exportPNG()" class="flex-1 bg-gray-200 py-3 rounded-lg">PNG</button>
+<button onclick="exportPDF()" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg">PDF</button>
+<button onclick="sendWhatsApp()" class="flex-1 bg-indigo-100 py-3 rounded-lg">WA</button>
 </div>
 
 <!-- PREVIEW MODAL -->
-<div id="previewModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-<div class="bg-white w-[90%] max-w-[700px] p-6 rounded-xl">
+<div id="previewModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+<div class="bg-white w-[90%] max-w-[600px] p-5 rounded-xl">
 
-<h2 class="font-semibold mb-4">Invoice Preview</h2>
+<h2 class="font-semibold mb-3">Invoice Preview</h2>
+
 <div id="previewContent" class="space-y-2 text-sm"></div>
 
 <div class="flex gap-2 mt-4">
-<button onclick="exportPDF()" class="flex-1 bg-indigo-600 text-white py-2 rounded">Download PDF</button>
+<button onclick="exportPDF()" class="flex-1 bg-indigo-600 text-white py-2 rounded">Download</button>
 <button onclick="closePreview()" class="flex-1 bg-gray-200 py-2 rounded">Close</button>
 </div>
 
@@ -129,188 +94,127 @@ button:active { transform:scale(0.96); }
 
 <script>
 let invoices = JSON.parse(localStorage.getItem("voklo_all")) || [{items:[]}];
-let currentIndex=0;
-let items=invoices[currentIndex].items;
-
-let barChart,pieChart;
-
-// THEME
-function applyTheme(){
-if(localStorage.getItem("theme")==="dark"){
-document.documentElement.classList.add("dark");
-}
-}
-applyTheme();
-
-themeBtn.onclick=()=>{
-document.documentElement.classList.toggle("dark");
-localStorage.setItem("theme",
-document.documentElement.classList.contains("dark")?"dark":"light");
-};
+let currentIndex = 0;
+let items = invoices[currentIndex].items;
 
 // RENDER
 function render(){
-let el=document.getElementById("items");
-el.innerHTML="";
+let el = document.getElementById("items");
+el.innerHTML = "";
+
 items.forEach((item,i)=>{
-el.innerHTML+=`
-<div class="card p-4 shadow flex gap-2 items-center">
-<input value="${item.name}" oninput="updateName(${i},this.value)" class="flex-1 bg-transparent outline-none">
-<input type="number" value="${item.price}" oninput="updatePrice(${i},this.value)" class="w-24 text-right outline-none">
+el.innerHTML += `
+<div class="card p-3 shadow flex gap-2 items-center">
+<input value="${item.name}" oninput="items[${i}].name=this.value" class="flex-1 outline-none">
+<input type="number" value="${item.price}" oninput="updatePrice(${i},this.value)" class="w-20 text-right outline-none">
 <button onclick="removeItem(${i})">✕</button>
 </div>`;
 });
-updateTotalsOnly();
-renderCharts();
-renderInvoiceList();
-saveAll();
+
+updateTotal();
+save();
 }
 
 // UPDATE
-function updateName(i,val){items[i].name=val;}
-function updatePrice(i,val){items[i].price=parseFloat(val)||0;updateTotalsOnly();}
-
-// TOTALS
-function updateTotalsOnly(){
-let total=items.reduce((a,b)=>a+b.price,0);
-
-total.innerText="$"+total;
-
-stat-total.innerText="$"+total;
-stat-count.innerText=items.length;
-stat-avg.innerText=items.length?("$"+(total/items.length).toFixed(2)):"$0";
-
-if(items.length){
-let prices=items.map(i=>i.price);
-let max=Math.max(...prices);
-let min=Math.min(...prices);
-
-let msg=max>total*0.5?"⚠ Dominated item":
-items.length>5?"📦 Many items":"✅ Balanced";
-
-insight.innerText=`Top $${max} | Low $${min} | ${msg}`;
+function updatePrice(i,val){
+items[i].price = parseFloat(val) || 0;
+updateTotal();
 }
+
+function updateTotal(){
+let t = items.reduce((a,b)=>a+b.price,0);
+document.getElementById("total").innerText = "$" + t;
 }
 
 // CRUD
-function addItem(){items.push({name:"New",price:0});render();}
-function removeItem(i){items.splice(i,1);render();}
+function addItem(){
+items.push({name:"New",price:0});
+render();
+}
+
+function removeItem(i){
+items.splice(i,1);
+render();
+}
 
 // STORAGE
-function saveAll(){
-invoices[currentIndex].items=items;
-localStorage.setItem("voklo_all",JSON.stringify(invoices));
-}
-
-function newInvoice(){
-invoices.push({items:[]});
-currentIndex=invoices.length-1;
-items=invoices[currentIndex].items;
-render();
-}
-
-function switchInvoice(i){
-currentIndex=i;
-items=invoices[i].items;
-render();
-}
-
-function renderInvoiceList(){
-let el=document.getElementById("invoiceList");
-el.innerHTML="";
-invoices.forEach((_,i)=>{
-el.innerHTML+=`<div onclick="switchInvoice(${i})" class="p-2 ${i===currentIndex?'bg-indigo-100':''}">Invoice ${i+1}</div>`;
-});
-}
-
-// CHARTS
-function renderCharts(){
-if(!items.length)return;
-
-let labels=items.map(i=>i.name);
-let data=items.map(i=>i.price);
-
-let ctx=barChart?.ctx || document.getElementById("barChart").getContext("2d");
-if(barChart)barChart.destroy();
-barChart=new Chart(ctx,{
-type:"bar",
-data:{labels,datasets:[{data,backgroundColor:"#6366F1"}]},
-options:{maintainAspectRatio:false}
-});
-
-let pctx=document.getElementById("pieChart").getContext("2d");
-if(pieChart)pieChart.destroy();
-pieChart=new Chart(pctx,{
-type:"doughnut",
-data:{labels,datasets:[{data,backgroundColor:["#6366F1","#818CF8","#A5B4FC","#C7D2FE"]}]},
-options:{cutout:"60%",maintainAspectRatio:false}
-});
+function save(){
+invoices[currentIndex].items = items;
+localStorage.setItem("voklo_all", JSON.stringify(invoices));
 }
 
 // PREVIEW
 function openPreview(){
-let el=document.getElementById("previewContent");
-el.innerHTML="";
-let total=0;
+let el = document.getElementById("previewContent");
+el.innerHTML = "";
+let total = 0;
 
 items.forEach(i=>{
-total+=i.price;
-el.innerHTML+=`<div class="flex justify-between"><span>${i.name}</span><span>$${i.price}</span></div>`;
+total += i.price;
+el.innerHTML += `
+<div class="flex justify-between">
+<span>${i.name}</span>
+<span>$${i.price}</span>
+</div>`;
 });
 
-el.innerHTML+=`<hr><div class="flex justify-between font-bold"><span>Total</span><span>$${total}</span></div>`;
+el.innerHTML += `
+<hr>
+<div class="flex justify-between font-bold">
+<span>Total</span>
+<span>$${total}</span>
+</div>`;
 
-previewModal.classList.remove("hidden");
-previewModal.classList.add("flex");
+document.getElementById("previewModal").classList.remove("hidden");
+document.getElementById("previewModal").classList.add("flex");
 }
 
 function closePreview(){
-previewModal.classList.add("hidden");
-previewModal.classList.remove("flex");
+document.getElementById("previewModal").classList.add("hidden");
+document.getElementById("previewModal").classList.remove("flex");
 }
 
 // EXPORT
 function cloneInvoice(){
-const original=document.getElementById("invoice");
-const clone=original.cloneNode(true);
-clone.style.position="fixed";
-clone.style.top="-9999px";
-clone.style.width="794px";
-clone.style.background="white";
+const clone = document.getElementById("invoice").cloneNode(true);
+clone.style.position = "fixed";
+clone.style.top = "-9999px";
+clone.style.width = "794px";
+clone.style.background = "white";
 document.body.appendChild(clone);
 return clone;
 }
 
 async function exportPNG(){
-let c=cloneInvoice();
-let canvas=await html2canvas(c,{scale:3});
-let link=document.createElement("a");
-link.download="voklo.png";
-link.href=canvas.toDataURL();
+let c = cloneInvoice();
+let canvas = await html2canvas(c,{scale:3});
+
+let link = document.createElement("a");
+link.download = "voklo.png";
+link.href = canvas.toDataURL();
 link.click();
+
 c.remove();
 }
 
 async function exportPDF(){
-let c=cloneInvoice();
-let canvas=await html2canvas(c,{scale:2});
-let img=canvas.toDataURL("image/png");
-let {jsPDF}=window.jspdf;
-let pdf=new jsPDF("p","px","a4");
+let c = cloneInvoice();
+let canvas = await html2canvas(c,{scale:2});
 
-let pos=0;
-while(pos<canvas.height){
-pdf.addImage(img,"PNG",0,-pos,794,canvas.height);
-pos+=1123;
-if(pos<canvas.height)pdf.addPage();
-}
+let img = canvas.toDataURL("image/png");
+let {jsPDF} = window.jspdf;
+
+let pdf = new jsPDF("p","px","a4");
+pdf.addImage(img,"PNG",0,0,794,1123);
 pdf.save("voklo.pdf");
+
 c.remove();
 }
 
+// WHATSAPP
 function sendWhatsApp(){
-let total=document.getElementById("total").innerText;
-let msg=encodeURIComponent(`VokLo Invoice\nTotal: ${total}`);
+let t = document.getElementById("total").innerText;
+let msg = encodeURIComponent(`VokLo Invoice\nTotal: ${t}`);
 window.open(`https://wa.me/?text=${msg}`);
 }
 
